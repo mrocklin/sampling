@@ -1,4 +1,5 @@
 import itertools
+import random as core_random
 
 
 no_replace = '__no__replace__'
@@ -45,3 +46,15 @@ def jackknife(seq, replace=no_replace):
         it = iter(seq)
         yield itertools.chain(itertools.islice(it, i), replace,
                               itertools.islice(it, 1, None))
+
+
+def shuffle(x, random=None):
+    """ Randomly reorder values of x
+
+    Pure version of standard ``random.shuffle``
+    """
+    if isinstance(x, list):
+        x = x.copy()
+    x = list(x)
+    core_random.shuffle(x, random=random)
+    return x

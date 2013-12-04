@@ -1,4 +1,4 @@
-from sampling.core import jackknife
+from sampling import jackknife, shuffle
 
 
 def test_jacknife():
@@ -10,3 +10,7 @@ def test_jacknife():
         (0, 2, 3), (1, 0, 3), (1, 2, 0))
     assert tuple(tuple(x) for x in jackknife([])) == ()
     assert tuple(tuple(x) for x in jackknife([1], replace=0)) == ((0,),)
+
+
+def test_shuffle():
+    assert set(shuffle((1, 2, 3))) == set((1, 2, 3))
