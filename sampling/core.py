@@ -58,3 +58,35 @@ def shuffle(x, random=None):
     x = list(x)
     core_random.shuffle(x, random=random)
     return x
+
+
+class Reservoir(object):
+    """ Basic object for Reservoir Sampling
+
+    >>> res = Reservoir(3)  # Reservoir of size 3
+    >>> for item in range(10):
+    ...     res.add(item)
+
+    Res contains three elements randomly chosen from ``range(10)``
+
+    >>> list(res)            # doctest: +SKIP
+    [8, 3]
+    """
+    __slots__ = 'size', 'random', 'storage', 'count'
+    def __init__(self, size, random=core_random.random):
+        self.size = size
+        self.random = random
+        self.storage = set()
+        self.count = 0
+
+    def add(self, item):
+        self.count += 1
+        if self.count <= self.size:
+            self.storage.add(item)
+        else:
+            if self.random() < float(self.size) / self.count:
+                dropped = self.storage.pop()
+                self.storage.add(item)
+
+    def __iter__(self):
+        return iter(self.storage)
